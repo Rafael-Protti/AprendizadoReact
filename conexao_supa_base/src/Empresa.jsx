@@ -48,7 +48,7 @@ function Empresa() {
             {
                 exibeModal == true ?
                     <div>
-                        <div className='fundo'></div>
+                        <div onClick={() => alteraExibeModal(false)} className='fundo'></div>
                         <div className="formulario">
                             <h2>Novo Funcionário</h2>
                             <input placeholder='Nome...' />
@@ -127,7 +127,7 @@ function Empresa() {
                             )}
                         </table>
                         <br />
-                        <button onClick={alteraExibeModal(true)}>Adicionar novo</button>
+                        <button onClick={() => alteraExibeModal(true)}>Adicionar novo</button>
                         <br /><br />
                         <button onClick={alternaVisualizacao}>Voltar</button>
                     </div>
