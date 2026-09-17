@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.6), white);
+    background-image: "https://www.youtube.com/watch?v=pDuAZA9cbt0";
+    background-attachment: fixed;
+    margin: 0;
+}
+
+.cabecalho {
+    text-align: center;
+}
+
+hr {
+    border-color: black;
+    border-width: 0.5px;
+}
+
+.tabela {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(201, 201, 201, 0.5);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.80em;
+    border: solid;
+    border-width: 0.75px;
+}
+
+button:hover {
+    background-color: rgba(201, 201, 201, 0.75);
+}
+
+button:active {
+    background-color: rgb(121, 121, 121);
+    border: none;
+    padding: 6px;
+}
+
+table {
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+    padding: 5px;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.3), white);
+}
+
+td {
+    border-style: solid;
+    border-width: 0.5px;
+    padding: 5px;
+    border-color: black;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dados:hover {
+    color: darkred;
+}
+
+.dados > td:hover {
+    color: red;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: solid;
+    border-color: black;
+    border-width: 0.5px;
+    padding: 20px;
+    align-items: center;
+    align-content: center;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.3), white);
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.formulario > h2 {
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.fundo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
