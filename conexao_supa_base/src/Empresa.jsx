@@ -7,9 +7,15 @@ function Empresa() {
 
     const [empresas, alteraEmpresas] = useState([])
     const [funcionarios, alteraFuncionarios] = useState([])
+
     const [exibeEmpresas, alteraExibeEmpresas] = useState(true)
     const [exibeFuncionarios, alteraExibeFuncionarios] = useState(false)
     const [exibeModal, alteraExibeModal] = useState(false)
+
+    const [nome, alteraNome] = useState("")
+    const [contato, alteraContato] = useState("")
+    const [cargo, alteraCargo] = useState("1")
+    const [idEmpresa, alteraIdEmpresa] = useState("")
 
 
     useEffect(() => {
@@ -23,17 +29,13 @@ function Empresa() {
         alteraEmpresas(data)
     }
 
-    async function buscaFuncionariosPorEmpresa(idEmpresa) {
-        const { data, error } = await supabase.from("funcionarios").select("*,id_empresa(nome, endereco)").eq("id_empresa", idEmpresa)
+    async function buscaFuncionariosPorEmpresa(id_empresa) {
+        const { data, error } = await supabase.from("funcionarios").select("*,id_empresa(nome, endereco)").eq("id_empresa", id_empresa)
         console.log(data)
+
         alteraFuncionarios(data)
 
-        alternaVisualizacao()
-    }
-
-    function alternaVisualizacao() {
-        alteraExibeEmpresas(!exibeEmpresas)
-        alteraExibeFuncionarios(!exibeFuncionarios)
+        alteraIdEmpresa(id_empresa)
     }
 
     async function buscaTodosFuncionarios() {
@@ -41,6 +43,33 @@ function Empresa() {
         console.log(data)
         alteraFuncionarios(data)
     }
+
+    async function inserirFuncionario() {
+        const obj = {
+            id_empresa: parseInt(idEmpresa),
+            nome: nome,
+            cargo: parseInt(cargo),
+            contato: contato
+        }
+
+        const { error } = await supabase.from("funcionarios").insert(obj)
+
+        if(error == null) {
+            alert("Funcionário cadastrado com sucesso!")
+            alteraExibeModal(false)
+            buscaFuncionariosPorEmpresa(obj.id_empresa)
+
+        } else {
+            alert("Erro ao cadastrar funcionário. Entre em contato com o suporte técnico." + "\nErro: " + error)
+            console.log(error)
+        }
+    }
+
+    function alternaVisualizacao() {
+        alteraExibeEmpresas(!exibeEmpresas)
+        alteraExibeFuncionarios(!exibeFuncionarios)
+    }
+
 
     return (
         <div>
@@ -51,17 +80,17 @@ function Empresa() {
                         <div onClick={() => alteraExibeModal(false)} className='fundo'></div>
                         <div className="formulario">
                             <h2>Novo Funcionário</h2>
-                            <input placeholder='Nome...' />
-                            <input placeholder='Contato...' />
-                            <select>
+                            <input onChange={e => alteraNome(e.target.value)} placeholder='Nome...' />
+                            <input onChange={e => alteraContato(e.target.value)} placeholder='Contato...' />
+                            <select onChange={e => alteraCargo(e.target.value)}>
                                 <option disabled selected>Selecione cargo</option>
                                 <option value="1">Funcionário comum</option>
                                 <option value="0">Administrador</option>
                             </select>
-                            <button>Salvar</button>
+                            <button onClick={inserirFuncionario} >Salvar</button>
                         </div>
                     </div>
-                : <></>
+                    : <></>
             }
 
 
@@ -92,13 +121,13 @@ function Empresa() {
                                     <td>{i.nome}</td>
                                     <td>{i.cnpj}</td>
                                     <td>{i.endereco}</td>
-                                    <td><button onClick={() => buscaFuncionariosPorEmpresa(i.id)}>Ver funcionários</button></td>
+                                    <td><button onClick={() => {buscaFuncionariosPorEmpresa(i.id); alternaVisualizacao()}}>Ver funcionários</button></td>
                                 </tr>
                             )}
                         </table>
                     </div>
 
-                : <></>
+                    : <></>
             }
 
             {
@@ -129,10 +158,10 @@ function Empresa() {
                         <br />
                         <button onClick={() => alteraExibeModal(true)}>Adicionar novo</button>
                         <br /><br />
-                        <button onClick={alternaVisualizacao}>Voltar</button>
+                        <button onClick={() => {alternaVisualizacao(); alteraIdEmpresa("")}}>Voltar</button>
                     </div>
 
-                : <></>
+                    : <></>
             }
         </div>
     );
